@@ -27,6 +27,7 @@
 
 
     <LinearLayout
+        android:id="@+id/kakaoogin"
         android:layout_width="237dp"
         android:layout_height="47dp"
         android:layout_margin="30dp"

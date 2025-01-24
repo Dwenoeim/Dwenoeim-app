@@ -1,0 +1,3 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="100dp" /> <!-- 둥근 모서리 반경 -->
+</shape>
