@@ -1,8 +1,10 @@
 package cse.mobile.dwenoeim_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,10 +21,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-//        // Facebook 버튼 클릭 이벤트
-//        Button facebookLoginButton = findViewById(R.id.logoImageView);
-//        facebookLoginButton.setOnClickListener(v ->
-//                Toast.makeText(MainActivity.this, "kakao 로그인 클릭됨", Toast.LENGTH_SHORT).show()
-//        );
+        LinearLayout kakaoLogin = findViewById(R.id.kakaoogin);
+
+// 클릭 이벤트 추가
+        kakaoLogin.setOnClickListener(v -> {
+            // SelectActivity로 이동
+            Intent intent = new Intent(MainActivity.this, SelectActivity.class);
+            startActivity(intent);
+        });
     }
 }
