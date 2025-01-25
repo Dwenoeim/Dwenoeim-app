@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,10 +24,8 @@ public class SelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
-        // QR 레이아웃 가져오기
         LinearLayout qrLayout = findViewById(R.id.qr_button);
 
-        // 클릭 이벤트 처리
         qrLayout.setOnClickListener(v -> {
             // 카메라 권한 확인 및 요청
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -46,10 +43,11 @@ public class SelectActivity extends AppCompatActivity {
     // 카메라 앱 실행 메서드
     private void openCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+        try {
             startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-        } else {
-            Toast.makeText(this, "카메라 앱을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "카메라 앱을 열 수 없습니다.", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
         }
     }
 
