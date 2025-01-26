@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -36,6 +37,16 @@ public class SelectActivity extends AppCompatActivity {
             } else {
                 // 권한이 있는 경우 카메라 앱 실행
                 openCamera();
+            }
+        });
+
+        LinearLayout editLayout = findViewById(R.id.edit_button);
+
+        editLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SelectActivity.this, EditActivity.class);
+                startActivity(intent);
             }
         });
     }
