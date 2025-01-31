@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -26,7 +27,6 @@ public class SelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select);
 
         LinearLayout qrLayout = findViewById(R.id.qr_button);
-
         qrLayout.setOnClickListener(v -> {
             // 카메라 권한 확인 및 요청
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -41,7 +41,6 @@ public class SelectActivity extends AppCompatActivity {
         });
 
         LinearLayout editLayout = findViewById(R.id.edit_button);
-
         editLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +48,12 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button cancelButton = findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(v -> {
+            finish();
+        });
+
     }
 
     // 카메라 앱 실행 메서드

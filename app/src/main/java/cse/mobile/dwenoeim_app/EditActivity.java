@@ -38,6 +38,11 @@ public class EditActivity extends AppCompatActivity {
             Toast.makeText(this, "이미지 저장 완료!", Toast.LENGTH_SHORT).show();
             // SAVE 버튼 로직 추가 필요 (예: API로 데이터 전송)
         });
+
+        Button cancelButton = findViewById(R.id.editCancelButton);
+        cancelButton.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     // API에서 이미지 가져오기
