@@ -9,16 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.annotations.SerializedName;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -39,7 +39,7 @@ public class EditActivity extends AppCompatActivity {
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         imageRecyclerView.setAdapter(adapter);
 
-        // API 호출하여 이미지 URL 가져오기
+        // API 호출하여 문자열 응답 받기
         fetchImagesFromApi();
 
         // SAVE 버튼 클릭 이벤트
@@ -55,25 +55,31 @@ public class EditActivity extends AppCompatActivity {
     private void fetchImagesFromApi() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://dwenoeim.store/") // 기본 URL 설정
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+                .build(); // GsonConverterFactory 제거
 
         ApiService apiService = retrofit.create(ApiService.class);
-        apiService.getImages().enqueue(new Callback<List<ImageResponse>>() {
+
+        apiService.getImages().enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<List<ImageResponse>> call, Response<List<ImageResponse>> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    for (ImageResponse imageResponse : response.body()) {
-                        imageUrls.add(imageResponse.getImageUrl());
+                    try {
+                        String result = response.body().string();  // 응답 문자열 읽기
+                        Log.d("EditActivity", "받은 응답: " + result);
+
+                        // 테스트로 응답 문자열을 RecyclerView에 추가
+                        imageUrls.add(result);
+                        adapter.notifyDataSetChanged();  // 데이터 변경 알림
+                    } catch (IOException e) {
+                        Log.e("EditActivity", "응답 처리 중 오류", e);
                     }
-                    adapter.notifyDataSetChanged(); // 데이터 변경 알림
                 } else {
                     Log.e("EditActivity", "API 응답 실패: " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ImageResponse>> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("EditActivity", "API 호출 실패", t);
             }
         });
@@ -81,17 +87,7 @@ public class EditActivity extends AppCompatActivity {
 
     // Retrofit API 인터페이스 정의
     public interface ApiService {
-        @retrofit2.http.GET("test")
-        Call<List<ImageResponse>> getImages();
-    }
-
-    // API 응답 데이터 모델
-    public static class ImageResponse {
-        @SerializedName("imageUrl") // JSON의 키와 매핑
-        private String imageUrl;
-
-        public String getImageUrl() {
-            return imageUrl;
-        }
+        @GET("test")
+        Call<ResponseBody> getImages();
     }
 }
