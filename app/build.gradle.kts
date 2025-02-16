@@ -42,4 +42,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("javax.inject:javax.inject:1")
 }
